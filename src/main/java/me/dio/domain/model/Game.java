@@ -1,10 +1,11 @@
 package me.dio.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Collection;
-import java.util.Date;
+import java.time.LocalDate;
+
 
 @Data
 @Entity(name = "tb_game")
@@ -16,7 +17,8 @@ public class Game {
     private String title;
     @Column(nullable = false)
     private String platform;
-    private Date completionDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDate completionDate;
     private String notes;
 
 }
