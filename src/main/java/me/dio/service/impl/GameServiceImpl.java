@@ -1,10 +1,12 @@
 package me.dio.service.impl;
 
 import me.dio.domain.model.Game;
+import me.dio.domain.model.User;
 import me.dio.domain.repository.GameRepository;
 import me.dio.service.GameService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -38,6 +40,11 @@ public class GameServiceImpl implements GameService {
         if (game.getId() != null && gameRepository.existsById(game.getId())) {
             throw new IllegalArgumentException("Game with id " + game.getId() + " already exists");
         }
+        User user = game.getUser();
+        if (user.getGames() == null) {
+            user.setGames(new ArrayList<>());
+        }
+        user.getGames().add(game);
         return gameRepository.save(game);
     }
 

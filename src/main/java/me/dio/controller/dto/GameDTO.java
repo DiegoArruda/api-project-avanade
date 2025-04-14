@@ -1,12 +1,24 @@
 package me.dio.controller.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import me.dio.domain.model.Game;
 import me.dio.domain.model.User;
 
 import java.time.LocalDate;
 
+public record GameDTO(
+        Long id,
+        String title,
+        String platform,
+        @JsonFormat(pattern = "dd/MM/yyyy") LocalDate completionDate,
+        String notes,
+        String user
+) {
 
-public record GameDTO(Long id, String title, String platform, LocalDate completionDate, String notes, Long userId) {
+    public static GameDTO forCreation(String title, String platform, LocalDate completionDate, String notes) {
+        return new GameDTO(null, title, platform, completionDate, notes, null);
+    }
+
     public static GameDTO fromEntity(Game game) {
         return new GameDTO(
                 game.getId(),
@@ -14,7 +26,7 @@ public record GameDTO(Long id, String title, String platform, LocalDate completi
                 game.getPlatform(),
                 game.getCompletionDate(),
                 game.getNotes(),
-                game.getUser().getId()
+                game.getUser().getEmail()
         );
     }
 
