@@ -29,7 +29,7 @@ public class UserController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(userDTOs);
     }
-
+    //NoSuchElementException
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
         User user = userService.findById(id);

@@ -3,6 +3,7 @@ package me.dio.service.impl;
 import me.dio.domain.model.Game;
 import me.dio.domain.model.User;
 import me.dio.domain.repository.GameRepository;
+import me.dio.domain.repository.UserRepository;
 import me.dio.service.GameService;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +15,11 @@ import java.util.NoSuchElementException;
 public class GameServiceImpl implements GameService {
 
     private final GameRepository gameRepository;
+    private final UserRepository userRepository;
 
-    public GameServiceImpl(GameRepository gameRepository) {
+    public GameServiceImpl(GameRepository gameRepository, UserRepository userRepository) {
         this.gameRepository = gameRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -40,12 +43,21 @@ public class GameServiceImpl implements GameService {
         if (game.getId() != null && gameRepository.existsById(game.getId())) {
             throw new IllegalArgumentException("Game with id " + game.getId() + " already exists");
         }
+        if (game.getUser() == null) {
+            throw new IllegalArgumentException("Game must be associated with a user");
+        }
+
         User user = game.getUser();
         if (user.getGames() == null) {
             user.setGames(new ArrayList<>());
         }
         user.getGames().add(game);
-        return gameRepository.save(game);
+        game.setUser(user);
+
+        Game savedGame = gameRepository.save(game);
+        userRepository.save(user);
+        return savedGame;
+
     }
 
 

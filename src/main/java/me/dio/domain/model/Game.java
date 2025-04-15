@@ -17,7 +17,6 @@ public class Game {
     private String title;
     @Column(nullable = false)
     private String platform;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate completionDate;
     private String notes;
     @ManyToOne

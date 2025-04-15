@@ -6,5 +6,4 @@ public interface UserService extends CrudService<Long, User> {
 
     User findById(Long id);
 
-    User findByEmail(String email);
 }

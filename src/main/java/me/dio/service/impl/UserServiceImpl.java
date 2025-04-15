@@ -28,11 +28,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
     }
 
-    @Override
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new NoSuchElementException("User not found with email: " + email));
-    }
+
 
     @Override
     public User create(User user) {
@@ -42,9 +38,7 @@ public class UserServiceImpl implements UserService {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email " + user.getEmail() + " is already in use");
         }
-        if (user.getGames() != null) {
-            user.getGames().forEach(game -> game.setUser(user));
-        }
+
         return userRepository.save(user);
     }
 
