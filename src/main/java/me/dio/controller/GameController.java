@@ -1,5 +1,6 @@
 package me.dio.controller;
 
+import jakarta.validation.Valid;
 import me.dio.controller.dto.GameDTO;
 import me.dio.domain.model.Game;
 import me.dio.domain.model.User;
@@ -50,7 +51,7 @@ public class GameController {
     }
 
     @PostMapping
-    public ResponseEntity<GameDTO> create(@RequestBody GameDTO gameDTO, @RequestParam Long userId) {
+    public ResponseEntity<GameDTO> create(@Valid @RequestBody GameDTO gameDTO, @RequestParam Long userId) {
         User user = userService.findById(userId);
         Game game = gameDTO.toEntity(user);
         Game createdGame = gameService.create(game);
@@ -64,7 +65,7 @@ public class GameController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<GameDTO> update(@PathVariable Long id, @RequestBody GameDTO gameDTO, @RequestParam Long userId) {
+    public ResponseEntity<GameDTO> update(@PathVariable Long id,@Valid @RequestBody GameDTO gameDTO, @RequestParam Long userId) {
         User user = userService.findById(userId);
         Game game = gameDTO.toEntity(user);
         Game updatedGame = gameService.update(id, game);

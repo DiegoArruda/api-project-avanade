@@ -1,6 +1,8 @@
 package me.dio.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
 import me.dio.domain.model.Game;
 import me.dio.domain.model.User;
 
@@ -8,9 +10,13 @@ import java.time.LocalDate;
 
 public record GameDTO(
         Long id,
+        @NotBlank(message = "Title is required")
         String title,
+        @NotBlank(message = "Platform is required")
         String platform,
-        @JsonFormat(pattern = "dd/MM/yyyy") LocalDate completionDate,
+        @JsonFormat(pattern = "dd/MM/yyyy")
+        @PastOrPresent(message = "Completion date cannot be in the future")
+        LocalDate completionDate,
         String notes,
         String user
 ) {

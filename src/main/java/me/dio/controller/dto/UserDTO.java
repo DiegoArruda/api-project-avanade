@@ -1,4 +1,6 @@
 package me.dio.controller.dto;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import me.dio.domain.model.User;
 
 import java.util.List;
@@ -6,7 +8,10 @@ import java.util.stream.Collectors;
 
 public record UserDTO(
         Long id,
+        @NotBlank(message = "Name is required")
         String name,
+        @NotBlank(message = "Email is required")
+        @Email(message = "Invalid email format")
         String email,
         List<GameDTO> games
 ) {

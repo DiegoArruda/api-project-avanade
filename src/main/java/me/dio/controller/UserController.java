@@ -1,5 +1,6 @@
 package me.dio.controller;
 
+import jakarta.validation.Valid;
 import me.dio.controller.dto.UserDTO;
 import me.dio.domain.model.User;
 import me.dio.service.UserService;
@@ -37,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> create(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> create(@Valid @RequestBody UserDTO userDTO) {
         User user = userDTO.toEntity();
         User createdUser = userService.create(user);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -48,7 +49,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> update(@PathVariable Long id,@Valid @RequestBody UserDTO userDTO) {
         User user = userDTO.toEntity();
         User updatedUser = userService.update(id, user);
         return ResponseEntity.ok(UserDTO.fromEntity(updatedUser));
